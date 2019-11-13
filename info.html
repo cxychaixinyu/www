@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table border="1" align="center" id="show">
+        <tr>
+            <td>ID</td>
+            <td>姓名</td>
+            <td>年龄</td>
+        </tr>
+    </table>
+</body>
+</html>
+<script src="/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        var data={};
+        var url="http://www.aaa.com/send.php";
+        $.ajax({
+            url:url,
+            data:data,
+            type:"post",
+            dataType:"jsonp",
+            jsonp:"callBack",
+            success:function (res) {
+                $.each(res,function (k,v) {
+                    var tr="<tr><td>"+v.id+"</td><td>"+v.name+"</td><td>"+v.age+"</td></tr>";
+                    $("#show").append(tr);
+                })
+            }
+        })
+    })
+</script>

@@ -1,0 +1,314 @@
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MySQL connection id is 16
+Server version: 5.5.53 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2017, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MySQL [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| 1810a              |
+| mysql              |
+| performance_schema |
+| test               |
++--------------------+
+5 rows in set (0.00 sec)
+
+MySQL [(none)]> create database xxoo;
+Query OK, 1 row affected (0.00 sec)
+
+MySQL [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| 1810a              |
+| mysql              |
+| performance_schema |
+| test               |
+| xxoo               |
++--------------------+
+6 rows in set (0.00 sec)
+
+MySQL [(none)]> create database cjm
+    -> ;
+Query OK, 1 row affected (0.01 sec)
+
+MySQL [(none)]> drop database cjm;
+Query OK, 0 rows affected (0.13 sec)
+
+MySQL [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| 1810a              |
+| mysql              |
+| performance_schema |
+| test               |
+| xxoo               |
++--------------------+
+6 rows in set (0.00 sec)
+
+MySQL [(none)]> use xxoo;
+Database changed
+MySQL [xxoo]> use 1810A;
+Database changed
+MySQL [1810A]> drop database xxoo;
+Query OK, 0 rows affected (0.00 sec)
+
+MySQL [1810a]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| 1810a              |
+| mysql              |
+| performance_schema |
+| test               |
++--------------------+
+5 rows in set (0.00 sec)
+
+MySQL [1810a]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| 1810a              |
+| mysql              |
+| performance_schema |
+| test               |
++--------------------+
+5 rows in set (0.00 sec)
+
+MySQL [1810a]> create database xxoo;
+Query OK, 1 row affected (0.00 sec)
+
+MySQL [1810a]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| 1810a              |
+| mysql              |
+| performance_schema |
+| test               |
+| xxoo               |
++--------------------+
+6 rows in set (0.00 sec)
+
+MySQL [1810a]> use xxoo;
+Database changed
+MySQL [xxoo]> show tables;
+Empty set (0.00 sec)
+
+MySQL [xxoo]> create table long(
+    -> id int,
+    -> name char(25),
+    -> sex char(24),
+    -> age int
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'long(
+id int,
+name char(25),
+sex char(24),
+age int
+)' at line 1
+MySQL [xxoo]> create table `long`(
+    -> id int,
+    -> name char(25),
+    -> sex char(24),
+    -> age int
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+MySQL [xxoo]> show tables;
++----------------+
+| Tables_in_xxoo |
++----------------+
+| long           |
++----------------+
+1 row in set (0.00 sec)
+
+MySQL [xxoo]> select * from long;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'long' at line 1
+MySQL [xxoo]> select * from `long`;
+Empty set (0.00 sec)
+
+MySQL [xxoo]> drop table `long`;
+Query OK, 0 rows affected (0.00 sec)
+
+MySQL [xxoo]> show tables;
+Empty set (0.00 sec)
+
+MySQL [xxoo]> create table user(
+    -> id int,
+    -> name char(24),
+    -> sex int,
+    -> age int
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+MySQL [xxoo]> show tables;
++----------------+
+| Tables_in_xxoo |
++----------------+
+| user           |
++----------------+
+1 row in set (0.00 sec)
+
+MySQL [xxoo]> rename table user xxoo;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'xxoo' at line 1
+MySQL [xxoo]> create table t1(
+    -> id float(3,2),
+    -> id1 double(3,2),
+    -> id2 decimal(3,1)
+    -> \c
+MySQL [xxoo]> create table t1(
+    -> id float(3,2),
+    -> id1 double(3,2),
+    -> id2 decimal(3,2)
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+MySQL [xxoo]> desc t1;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| id    | float(3,2)   | YES  |     | NULL    |       |
+| id1   | double(3,2)  | YES  |     | NULL    |       |
+| id2   | decimal(3,2) | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+MySQL [xxoo]> insert into t1(id,id1,id2) value(2.345,2.345,2.345);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+MySQL [xxoo]> select * from t1;
++------+------+------+
+| id   | id1  | id2  |
++------+------+------+
+| 2.35 | 2.35 | 2.35 |
++------+------+------+
+1 row in set (0.00 sec)
+
+MySQL [xxoo]> insert into t1(id,id1,id2) value(2.346,2.346,2.346);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+MySQL [xxoo]> select * from t1;
++------+------+------+
+| id   | id1  | id2  |
++------+------+------+
+| 2.35 | 2.35 | 2.35 |
+| 2.35 | 2.35 | 2.35 |
++------+------+------+
+2 rows in set (0.00 sec)
+
+MySQL [xxoo]> insert into t1(id,id1,id2) value(2.245,2.245,2.245);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+MySQL [xxoo]> select * from t1;
++------+------+------+
+| id   | id1  | id2  |
++------+------+------+
+| 2.35 | 2.35 | 2.35 |
+| 2.35 | 2.35 | 2.35 |
+| 2.25 | 2.25 | 2.25 |
++------+------+------+
+3 rows in set (0.00 sec)
+
+MySQL [xxoo]> insert into t1(id,id1,id2) value(2.225,2.225,2.225);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+MySQL [xxoo]> select * from t1;
++------+------+------+
+| id   | id1  | id2  |
++------+------+------+
+| 2.35 | 2.35 | 2.35 |
+| 2.35 | 2.35 | 2.35 |
+| 2.25 | 2.25 | 2.25 |
+| 2.23 | 2.23 | 2.23 |
++------+------+------+
+4 rows in set (0.00 sec)
+
+MySQL [xxoo]> insert into t1(id,id1,id2) value(2.244,2.244,2.244);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+MySQL [xxoo]> select * from t1;
++------+------+------+
+| id   | id1  | id2  |
++------+------+------+
+| 2.35 | 2.35 | 2.35 |
+| 2.35 | 2.35 | 2.35 |
+| 2.25 | 2.25 | 2.25 |
+| 2.23 | 2.23 | 2.23 |
+| 2.24 | 2.24 | 2.24 |
++------+------+------+
+5 rows in set (0.00 sec)
+
+MySQL [xxoo]> insert into t1(id,id1,id2) value(2.2245,2.2245,2.2245);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+MySQL [xxoo]> select * from t1;
++------+------+------+
+| id   | id1  | id2  |
++------+------+------+
+| 2.35 | 2.35 | 2.35 |
+| 2.35 | 2.35 | 2.35 |
+| 2.25 | 2.25 | 2.25 |
+| 2.23 | 2.23 | 2.23 |
+| 2.24 | 2.24 | 2.24 |
+| 2.22 | 2.22 | 2.22 |
++------+------+------+
+6 rows in set (0.00 sec)
+
+MySQL [xxoo]> insert into t1(id,id1,id2) value(2.225,2.225,2.225);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+MySQL [xxoo]> select * from t1;
++------+------+------+
+| id   | id1  | id2  |
++------+------+------+
+| 2.35 | 2.35 | 2.35 |
+| 2.35 | 2.35 | 2.35 |
+| 2.25 | 2.25 | 2.25 |
+| 2.23 | 2.23 | 2.23 |
+| 2.24 | 2.24 | 2.24 |
+| 2.22 | 2.22 | 2.22 |
+| 2.23 | 2.23 | 2.23 |
++------+------+------+
+7 rows in set (0.00 sec)
+
+MySQL [xxoo]> insert into t1(id,id1,id2) value(1000,1000,1000);
+Query OK, 1 row affected, 3 warnings (0.00 sec)
+
+MySQL [xxoo]> desc t1;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| id    | float(3,2)   | YES  |     | NULL    |       |
+| id1   | double(3,2)  | YES  |     | NULL    |       |
+| id2   | decimal(3,2) | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+MySQL [xxoo]> select * from t1;
++------+------+------+
+| id   | id1  | id2  |
++------+------+------+
+| 2.35 | 2.35 | 2.35 |
+| 2.35 | 2.35 | 2.35 |
+| 2.25 | 2.25 | 2.25 |
+| 2.23 | 2.23 | 2.23 |
+| 2.24 | 2.24 | 2.24 |
+| 2.22 | 2.22 | 2.22 |
+| 2.23 | 2.23 | 2.23 |
+| 9.99 | 9.99 | 9.99 |
++------+------+------+
+8 rows in set (0.00 sec)
+
+MySQL [xxoo]> \q

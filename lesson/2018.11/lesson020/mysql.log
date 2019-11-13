@@ -1,0 +1,462 @@
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MySQL connection id is 4
+Server version: 5.5.53 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2017, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MySQL [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| 1810a              |
+| mysql              |
+| performance_schema |
+| test               |
+| www                |
+| xxoo               |
++--------------------+
+7 rows in set (0.00 sec)
+
+MySQL [(none)]> create database ooxx;
+Query OK, 1 row affected (0.00 sec)
+
+MySQL [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| 1810a              |
+| mysql              |
+| ooxx               |
+| performance_schema |
+| test               |
+| www                |
+| xxoo               |
++--------------------+
+8 rows in set (0.00 sec)
+
+MySQL [(none)]> create database ooxx;
+ERROR 1007 (HY000): Can't create database 'ooxx'; database exists
+MySQL [(none)]> create database if not exists xxoo;
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+MySQL [(none)]> drop database ooxx;
+Query OK, 0 rows affected (0.07 sec)
+
+MySQL [(none)]> show tables;
+ERROR 1046 (3D000): No database selected
+MySQL [(none)]> use xxoo;
+Database changed
+MySQL [xxoo]> show tables;
++----------------+
+| Tables_in_xxoo |
++----------------+
+| user           |
++----------------+
+1 row in set (0.00 sec)
+
+MySQL [xxoo]> create table t1(
+    -> id int,
+    -> name char(23)
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+MySQL [xxoo]> insert into t1 values(1,'aa'),(2,22);
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> select * from t1;
++------+------+
+| id   | name |
++------+------+
+|    1 | aa   |
+|    2 | 22   |
++------+------+
+2 rows in set (0.00 sec)
+
+MySQL [xxoo]> update t1 set name='bb' where name=22;
+Query OK, 1 row affected, 1 warning (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 1
+
+MySQL [xxoo]> select * from t1;
++------+------+
+| id   | name |
++------+------+
+|    1 | aa   |
+|    2 | bb   |
++------+------+
+2 rows in set (0.00 sec)
+
+MySQL [xxoo]> delete from t1 where id=1;
+Query OK, 1 row affected (0.00 sec)
+
+MySQL [xxoo]> select * from t1;
++------+------+
+| id   | name |
++------+------+
+|    2 | bb   |
++------+------+
+1 row in set (0.00 sec)
+
+MySQL [xxoo]> desc t1;
++-------+----------+------+-----+---------+-------+
+| Field | Type     | Null | Key | Default | Extra |
++-------+----------+------+-----+---------+-------+
+| id    | int(11)  | YES  |     | NULL    |       |
+| name  | char(23) | YES  |     | NULL    |       |
++-------+----------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+MySQL [xxoo]> create table t2(
+    -> id int not null);
+Query OK, 0 rows affected (0.07 sec)
+
+MySQL [xxoo]> create table t3(
+    -> id int not null,
+    -> name char(23)
+    -> );
+Query OK, 0 rows affected (0.10 sec)
+
+MySQL [xxoo]> desc t3;
++-------+----------+------+-----+---------+-------+
+| Field | Type     | Null | Key | Default | Extra |
++-------+----------+------+-----+---------+-------+
+| id    | int(11)  | NO   |     | NULL    |       |
+| name  | char(23) | YES  |     | NULL    |       |
++-------+----------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+MySQL [xxoo]> insert into t3(name) values('aa');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+MySQL [xxoo]> insert into t3(id) values(2);
+Query OK, 1 row affected (0.00 sec)
+
+MySQL [xxoo]> select * from t3;
++----+------+
+| id | name |
++----+------+
+|  0 | aa   |
+|  2 | NULL |
++----+------+
+2 rows in set (0.00 sec)
+
+MySQL [xxoo]> create table t4(
+    -> id int,
+    -> name char(23) not null
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+MySQL [xxoo]> desc t4;
++-------+----------+------+-----+---------+-------+
+| Field | Type     | Null | Key | Default | Extra |
++-------+----------+------+-----+---------+-------+
+| id    | int(11)  | YES  |     | NULL    |       |
+| name  | char(23) | NO   |     | NULL    |       |
++-------+----------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+MySQL [xxoo]> insert into t4(id) values(1);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+MySQL [xxoo]> select * from t4;
++------+------+
+| id   | name |
++------+------+
+|    1 |      |
++------+------+
+1 row in set (0.00 sec)
+
+MySQL [xxoo]> create table t5(
+    -> id int ,
+    -> name char(23),
+    -> sex char(3) not null default 'nan'
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+MySQL [xxoo]> desc t5;
++-------+----------+------+-----+---------+-------+
+| Field | Type     | Null | Key | Default | Extra |
++-------+----------+------+-----+---------+-------+
+| id    | int(11)  | YES  |     | NULL    |       |
+| name  | char(23) | YES  |     | NULL    |       |
+| sex   | char(3)  | NO   |     | nan     |       |
++-------+----------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+MySQL [xxoo]> desc t4;
++-------+----------+------+-----+---------+-------+
+| Field | Type     | Null | Key | Default | Extra |
++-------+----------+------+-----+---------+-------+
+| id    | int(11)  | YES  |     | NULL    |       |
+| name  | char(23) | NO   |     | NULL    |       |
++-------+----------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+MySQL [xxoo]> insert into t5(id,name) values(1,'aa'),(2,'bb');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> select * from t5;
++------+------+-----+
+| id   | name | sex |
++------+------+-----+
+|    1 | aa   | nan |
+|    2 | bb   | nan |
++------+------+-----+
+2 rows in set (0.00 sec)
+
+MySQL [xxoo]> insert into t5 values(3,'cc',null);
+ERROR 1048 (23000): Column 'sex' cannot be null
+MySQL [xxoo]> insert into t5 values(3,'cc');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+MySQL [xxoo]> insert into t5 values(3,'cc','null');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+MySQL [xxoo]> select * from t5;
++------+------+-----+
+| id   | name | sex |
++------+------+-----+
+|    1 | aa   | nan |
+|    2 | bb   | nan |
+|    3 | cc   | nul |
++------+------+-----+
+3 rows in set (0.00 sec)
+
+MySQL [xxoo]> create table  t6(
+    -> id int(3) unsigned  zerofill not null auto_increment primary key,
+    -> name char(23)
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+MySQL [xxoo]> desc t6;
++-------+--------------------------+------+-----+---------+----------------+
+| Field | Type                     | Null | Key | Default | Extra          |
++-------+--------------------------+------+-----+---------+----------------+
+| id    | int(3) unsigned zerofill | NO   | PRI | NULL    | auto_increment |
+| name  | char(23)                 | YES  |     | NULL    |                |
++-------+--------------------------+------+-----+---------+----------------+
+2 rows in set (0.01 sec)
+
+MySQL [xxoo]> insert into t6(name) values('a'),('b'),('c');
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> select * from t6;
++-----+------+
+| id  | name |
++-----+------+
+| 001 | a    |
+| 002 | b    |
+| 003 | c    |
++-----+------+
+3 rows in set (0.00 sec)
+
+MySQL [xxoo]> insert into t6 values(1000,'cc');
+Query OK, 1 row affected (0.00 sec)
+
+MySQL [xxoo]> select * from t6;
++------+------+
+| id   | name |
++------+------+
+|  001 | a    |
+|  002 | b    |
+|  003 | c    |
+| 1000 | cc   |
++------+------+
+4 rows in set (0.00 sec)
+
+MySQL [xxoo]> insert into t6 values(99,'cc');
+Query OK, 1 row affected (0.00 sec)
+
+MySQL [xxoo]> select * from t6;
++------+------+
+| id   | name |
++------+------+
+|  001 | a    |
+|  002 | b    |
+|  003 | c    |
+| 1000 | cc   |
+|  099 | cc   |
++------+------+
+5 rows in set (0.00 sec)
+
+MySQL [xxoo]> create table t7(
+    -> id int not null primary key auto_increment,
+    -> name char(23)
+    -> );
+Query OK, 0 rows affected (0.09 sec)
+
+MySQL [xxoo]> create table t8(
+    -> id int,
+    -> name char(23)
+    -> );
+Query OK, 0 rows affected (0.09 sec)
+
+MySQL [xxoo]> desc t7;
++-------+----------+------+-----+---------+----------------+
+| Field | Type     | Null | Key | Default | Extra          |
++-------+----------+------+-----+---------+----------------+
+| id    | int(11)  | NO   | PRI | NULL    | auto_increment |
+| name  | char(23) | YES  |     | NULL    |                |
++-------+----------+------+-----+---------+----------------+
+2 rows in set (0.01 sec)
+
+MySQL [xxoo]> desc t8;
++-------+----------+------+-----+---------+-------+
+| Field | Type     | Null | Key | Default | Extra |
++-------+----------+------+-----+---------+-------+
+| id    | int(11)  | YES  |     | NULL    |       |
+| name  | char(23) | YES  |     | NULL    |       |
++-------+----------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+MySQL [xxoo]> insert into t7(name) values('a'),('b'),('c'),('d');
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 8 rows affected (0.00 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 16 rows affected (0.00 sec)
+Records: 16  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 32 rows affected (0.00 sec)
+Records: 32  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 64 rows affected (0.00 sec)
+Records: 64  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 128 rows affected (0.00 sec)
+Records: 128  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 256 rows affected (0.00 sec)
+Records: 256  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 512 rows affected (0.00 sec)
+Records: 512  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 1024 rows affected (0.00 sec)
+Records: 1024  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 2048 rows affected (0.01 sec)
+Records: 2048  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 4096 rows affected (0.01 sec)
+Records: 4096  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 8192 rows affected (0.01 sec)
+Records: 8192  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 16384 rows affected (0.03 sec)
+Records: 16384  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 32768 rows affected (0.06 sec)
+Records: 32768  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 65536 rows affected (0.13 sec)
+Records: 65536  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 131072 rows affected (0.27 sec)
+Records: 131072  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 262144 rows affected (0.65 sec)
+Records: 262144  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 524288 rows affected (1.29 sec)
+Records: 524288  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 1048576 rows affected (2.65 sec)
+Records: 1048576  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> select count(*) from t7;
++----------+
+| count(*) |
++----------+
+|  2097152 |
++----------+
+1 row in set (0.00 sec)
+
+MySQL [xxoo]> insert into t8 select * from t7;
+Query OK, 2097152 rows affected (1.10 sec)
+Records: 2097152  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> select count(*) from t8;
++----------+
+| count(*) |
++----------+
+|  2097152 |
++----------+
+1 row in set (0.00 sec)
+
+MySQL [xxoo]> select * from t7 where id=9999;
++------+------+
+| id   | name |
++------+------+
+| 9999 | c    |
++------+------+
+1 row in set (0.00 sec)
+
+MySQL [xxoo]> select * from t8 where id=9999;
++------+------+
+| id   | name |
++------+------+
+| 9999 | c    |
++------+------+
+1 row in set (0.28 sec)
+
+MySQL [xxoo]> insert into t8 select * from t7;
+Query OK, 2097152 rows affected (1.10 sec)
+Records: 2097152  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> insert into t7(name) select name from t7;
+Query OK, 2097152 rows affected (7.39 sec)
+Records: 2097152  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> select * from t7 where id=9999;
++------+------+
+| id   | name |
++------+------+
+| 9999 | c    |
++------+------+
+1 row in set (0.00 sec)
+
+MySQL [xxoo]> select * from t8 where id=9999;
++------+------+
+| id   | name |
++------+------+
+| 9999 | c    |
+| 9999 | c    |
++------+------+
+2 rows in set (0.56 sec)
+
+MySQL [xxoo]> insert into t8 select * from t7;
+Query OK, 4194304 rows affected (2.19 sec)
+Records: 4194304  Duplicates: 0  Warnings: 0
+
+MySQL [xxoo]> \q
